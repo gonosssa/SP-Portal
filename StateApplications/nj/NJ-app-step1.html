@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJ TDI – Step 1: Identification & Basic Information</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../assets/images/ShelterPoint.jpg" alt="ShelterPoint Life Insurance Company" style="height: 50px;">
+                <p class="tagline">Application – Step 1 of 6</p>
+            </div>
+        </header>
+        <main>
+            <div class="form-section">
+                <h2 class="section-title">Identification Numbers & Basic Information</h2>
+
+                <form id="njStep1">
+                    <!-- Identification Numbers -->
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Identification Numbers</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="njEmployerId">New Jersey Employer Identification Number <span class="required">*</span></label>
+                                <input type="text" id="njEmployerId" name="njEmployerId" placeholder="9-digit number" maxlength="9" required>
+                                <span class="help-text">Assigned by Division of UI/DI Financing</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="privatePlanNumber">Private Plan Number</label>
+                                <input type="text" id="privatePlanNumber" name="privatePlanNumber">
+                                <span class="help-text">Leave blank for new applications</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 1: Approval/Modification -->
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Type of Application <span class="required">*</span></h3>
+                        
+                        <div class="form-group">
+                            <label style="font-weight: 600; margin-bottom: 1rem;">Check One:</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="approval" name="applicationType" value="approval" required>
+                                    <label for="approval"><strong>Approval</strong> is requested for an insured Private Plan</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="modification" name="applicationType" value="modification">
+                                    <label for="modification"><strong>Modification</strong> is requested for the insured Private Plan indicated above</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box" style="margin: 1rem 0;">
+                            <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">When to select "Approval":</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                <li>Coverage transferring from State Insurance Fund to Private Plan</li>
+                                <li>Private Plan to Private Plan transfer with changes to current plan design</li>
+                            </ul>
+                            <h4 style="font-size: 0.95rem; margin: 0.5rem 0;">When to select "Modification":</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                <li>Coverage transferring from Private Plan to Private Plan with NO changes to current plan design</li>
+                            </ul>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="effectiveDate">Effective Date <span class="required">*</span></label>
+                            <input type="date" id="effectiveDate" name="effectiveDate" required>
+                            <span class="help-text">State Fund transfers: First day of future quarter | Private Plan transfers: Any future date</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employerName">Name of Employer <span class="required">*</span></label>
+                            <input type="text" id="employerName" name="employerName" required>
+                            <span class="help-text">Full legal name - exactly as registered with NJ Department of Labor</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employerAddress">Employer's Address <span class="required">*</span></label>
+                            <input type="text" id="employerAddress" name="employerAddress" placeholder="Street, City, State, ZIP Code" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employerPhone">Employer's Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="employerPhone" name="employerPhone" placeholder="(555) 123-4567" required>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Policyholder -->
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Policyholder Information</h3>
+                        <p style="color: var(--text-light); margin-bottom: 1rem;">Complete only if policyholder is different than employer 1</p>
+                        
+                        <div class="form-group">
+                            <label for="policyholderName">Policyholder's Name</label>
+                            <input type="text" id="policyholderName" name="policyholderName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="policyholderAddress">Policyholder's Address</label>
+                            <input type="text" id="policyholderAddress" name="policyholderAddress" placeholder="Street, City, State, ZIP Code">
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-secondary" onclick="window.location.href='NJ-quote.html'">← Back</button>
+                        <button type="button" class="btn-primary" onclick="saveAndNext()">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <p>© 2025 ShelterPoint Life Insurance Company</p>
+        </footer>
+    </div>
+    <script>
+        function loadData(){
+            const data = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            Object.keys(data).forEach(function(key){ 
+                const el = document.getElementById(key);
+                if (el) {
+                    if (el.type === 'radio') {
+                        const r = document.querySelector('input[name="' + el.name + '"][value="' + data[key] + '"]');
+                        if (r) r.checked = true;
+                    } else {
+                        el.value = data[key];
+                    }
+                }
+            });
+        }
+
+        function saveAndNext(){
+            const fd = new FormData(document.getElementById('njStep1'));
+            const existing = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            fd.forEach((v,k)=> existing[k]=v);
+            sessionStorage.setItem('njApplicationData', JSON.stringify(existing));
+            window.location.href = 'NJ-app-step2.html';
+        }
+
+        // Auto-format phone numbers
+        document.getElementById('employerPhone').addEventListener('input', formatPhone);
+
+        function formatPhone(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    value = '(' + value;
+                } else if (value.length <= 6) {
+                    value = '(' + value.slice(0, 3) + ') ' + value.slice(3);
+                } else {
+                    value = '(' + value.slice(0, 3) + ') ' + value.slice(3, 6) + '-' + value.slice(6, 10);
+                }
+                e.target.value = value;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
+

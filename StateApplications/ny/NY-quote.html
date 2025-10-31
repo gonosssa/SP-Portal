@@ -257,6 +257,9 @@
                                 <div class="form-group" style="margin-top: 1rem;">
                                     <label for="totalEmployees">Total Employees</label>
                                     <input type="number" id="totalEmployees" name="totalEmployees" min="0" readonly>
+                                    <div id="headcountWarning" style="display: none; background: #FFF3CD; color: #856404; padding: 0.75rem; border-radius: 6px; margin-top: 0.5rem; border-left: 4px solid #FFC107;">
+                                        <strong>⚠️ Notice:</strong> Manual underwriting is necessary for headcounts over 49.
+                                    </div>
                                 </div>
                             </div>
 
@@ -272,7 +275,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="payrollBelowNYSAWW">Total Annual Payroll Below NYSAWW</label>
-                                        <input type="number" id="payrollBelowNYSAWW" name="payrollBelowNYSAWW" min="0" step="0.01" value="0" placeholder="$0.00">
+                                        <input type="text" id="payrollBelowNYSAWW" name="payrollBelowNYSAWW" value="0" placeholder="$0.00" inputmode="decimal" pattern="^[0-9]*\.?[0-9]*$" aria-label="Total Annual Payroll Below NYSAWW">
                                     </div>
                                 </div>
                                 
@@ -482,6 +485,18 @@
             const females = parseInt(document.getElementById('coveredFemales').value) || 0;
             const total = males + females;
             document.getElementById('totalEmployees').value = total;
+            
+            // Show/hide headcount warning for NY
+            const HEADCOUNT_CAP = 50;
+            const warningEl = document.getElementById('headcountWarning');
+            if (warningEl) {
+                if (total >= HEADCOUNT_CAP) {
+                    warningEl.style.display = 'block';
+                } else {
+                    warningEl.style.display = 'none';
+                }
+            }
+            
             return total;
         }
 
@@ -514,10 +529,46 @@
         document.getElementById('employeesOverNYSAWW').addEventListener('input', updateQuote);
         document.getElementById('payrollBelowNYSAWW').addEventListener('input', updateQuote);
 
+        // Currency formatting for NY payrollBelowNYSAWW and safe parsing
+        const nyCleanNumber = (v)=> parseFloat(String(v||'').replace(/[^0-9.]/g,'')) || 0;
+        (function(){
+            const payrollBelowNY = document.getElementById('payrollBelowNYSAWW');
+            if (!payrollBelowNY) return;
+            const fmt = (n)=> new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
+            const sanitize = (v)=>{
+                // allow only digits and a single decimal point
+                v = String(v||'');
+                v = v.replace(/[^0-9.]/g, '');
+                const parts = v.split('.');
+                if (parts.length > 2) v = parts[0] + '.' + parts.slice(1).join('');
+                return v;
+            };
+            payrollBelowNY.addEventListener('input', ()=>{
+                const clean = sanitize(payrollBelowNY.value);
+                if (clean !== payrollBelowNY.value) payrollBelowNY.value = clean;
+            });
+            payrollBelowNY.addEventListener('focus', ()=>{ payrollBelowNY.value = String(payrollBelowNY.value||'').replace(/[^0-9.]/g,''); });
+            payrollBelowNY.addEventListener('blur', ()=>{ payrollBelowNY.value = fmt(nyCleanNumber(payrollBelowNY.value)); });
+        })();
+
         // Update quote calculation
         function updateQuote() {
             // Calculate total employees first
-            calculateTotal();
+            const totalEmployees = calculateTotal();
+            
+            // Check headcount cap - don't calculate quote if exceeds cap
+            const HEADCOUNT_CAP = 50;
+            if (totalEmployees >= HEADCOUNT_CAP) {
+                document.getElementById('quoteAmount').textContent = 'N/A';
+                document.getElementById('quotePeriod').textContent = '';
+                // Clear breakdown values
+                const breakdownElements = ['dblPremium', 'pflPremium', 'optionalCost'];
+                breakdownElements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = 'N/A';
+                });
+                return;
+            }
             
             // Collect form data
             const formData = new FormData(document.getElementById('quoteForm'));
@@ -533,7 +584,7 @@
             
             // PFL calculation inputs
             quoteParams.employeesOverNYSAWW = parseInt(document.getElementById('employeesOverNYSAWW').value) || 0;
-            quoteParams.payrollBelowNYSAWW = parseFloat(document.getElementById('payrollBelowNYSAWW').value) || 0;
+            quoteParams.payrollBelowNYSAWW = nyCleanNumber(document.getElementById('payrollBelowNYSAWW').value);
             
             // DBL benefit tier
             const dblBenefits = document.querySelector('input[name="dblBenefits"]:checked');
@@ -612,9 +663,7 @@
 
         // Initialize quote on page load
         window.addEventListener('DOMContentLoaded', function() {
-            const today = new Date();
-            const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-            document.getElementById('effectiveDate').value = nextMonth.toISOString().split('T')[0];
+            document.getElementById('effectiveDate').value = '2026-01-01';
             updateQuote();
         });
     </script>

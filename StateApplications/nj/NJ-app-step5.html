@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJ TDI – Step 5: Employee Election & Benefits</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../assets/images/ShelterPoint.jpg" alt="ShelterPoint Life Insurance Company" style="height: 50px;">
+                <p class="tagline">Application – Step 5 of 6</p>
+            </div>
+        </header>
+        <main>
+            <div class="form-section">
+                <h2 class="section-title">Benefits Provided</h2>
+
+                <form id="njStep5">
+
+                        <!-- Category A: Weekly Benefit Amount -->
+                        <div style="border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">CATEGORY A – Weekly Benefit Amount</h4>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="catA_statutory" name="categoryA" value="statutory" required>
+                                    <label for="catA_statutory">Statutory – 85% of employee's average weekly wages, up to the maximum set for that calendar year</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="catA_other" name="categoryA" value="other" onchange="toggleCategoryAOther()">
+                                    <label for="catA_other">Other (explain)</label>
+                                </div>
+                            </div>
+                            <div id="catA_otherField" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" id="catA_otherExplain" name="catA_otherExplain" placeholder="Explain other benefit amount">
+                            </div>
+                        </div>
+
+                        <!-- Category B: Limitations -->
+                        <div style="border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">CATEGORY B – Limitations</h4>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="catB_statutory" name="categoryB" value="statutory" required>
+                                    <label for="catB_statutory">Statutory - All provided by NJSA 43:21-39 of the NJ Temporary Disability Benefits Law</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="catB_other" name="categoryB" value="other" onchange="toggleCategoryBOther()">
+                                    <label for="catB_other">Other (explain)</label>
+                                </div>
+                            </div>
+                            <div id="catB_otherField" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" id="catB_otherExplain" name="catB_otherExplain" placeholder="Explain other limitations">
+                            </div>
+                        </div>
+
+                        <!-- Category C: Eligibility Requirement -->
+                        <div style="border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">CATEGORY C - Eligibility Requirement</h4>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="catC_statutory" name="categoryC" value="statutory" required>
+                                    <label for="catC_statutory">Statutory - 20 base weeks or 1,000 times the State minimum wage</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="catC_other" name="categoryC" value="other" onchange="toggleCategoryCOther()">
+                                    <label for="catC_other">Other (explain)</label>
+                                </div>
+                            </div>
+                            <div id="catC_otherField" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" id="catC_otherExplain" name="catC_otherExplain" placeholder="Explain other eligibility requirement">
+                            </div>
+                        </div>
+
+                        <!-- Category D: Maximum Duration -->
+                        <div style="border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">CATEGORY D – Maximum Duration of Benefits for Each Period of Disability</h4>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="catD_statutory" name="categoryD" value="statutory" required>
+                                    <label for="catD_statutory">Statutory - The lesser of 26 times the weekly benefit amount or 1/3 total wages in base year (the lesser)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="catD_enhanced" name="categoryD" value="enhanced">
+                                    <label for="catD_enhanced">Enhanced - 26 weeks for each period of disability</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="catD_other" name="categoryD" value="other" onchange="toggleCategoryDOther()">
+                                    <label for="catD_other">Other (explain)</label>
+                                </div>
+                            </div>
+                            <div id="catD_otherField" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" id="catD_otherExplain" name="catD_otherExplain" placeholder="Explain other maximum duration">
+                            </div>
+                        </div>
+
+                        <!-- Category E: Benefit Commencement -->
+                        <div style="border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">CATEGORY E – Benefit Commencement for Each Period of Disability</h4>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="catE_statutory" name="categoryE" value="statutory" required>
+                                    <label for="catE_statutory">Statutory – The first seven days of payment is held until the employee's unpaid leave continues for a total of 22 days or more. Upon that condition, the first seven days become payable retroactively</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="catE_enhanced" name="categoryE" value="enhanced">
+                                    <label for="catE_enhanced">Enhanced - On the first day with respect to any period of disability</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="catE_other" name="categoryE" value="other" onchange="toggleCategoryEOther()">
+                                    <label for="catE_other">Other (explain)</label>
+                                </div>
+                            </div>
+                            <div id="catE_otherField" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" id="catE_otherExplain" name="catE_otherExplain" placeholder="Explain other benefit commencement">
+                            </div>
+                        </div>
+
+                        <div class="info-box" style="margin-top: 1rem;">
+                            <p style="font-weight: 600;">📋 GUARANTEED MINIMUM BENEFITS:</p>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Anything in this Plan to the contrary notwithstanding, the benefits payable to any employee for any period of disability commencing while insured hereunder, shall not be less than the employee would have been entitled to receive for such period under Article III of the NJ Temporary Disability Benefits Law, but for the employee's coverage under this Plan.</p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-secondary" onclick="window.location.href='NJ-app-step4.html'">← Back</button>
+                        <button type="button" class="btn-primary" onclick="saveAndNext()">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <p>© 2025 ShelterPoint Life Insurance Company</p>
+        </footer>
+    </div>
+    <script>
+        function toggleCategoryAOther() {
+            const field = document.getElementById('catA_otherField');
+            const other = document.getElementById('catA_other').checked;
+            field.style.display = other ? 'block' : 'none';
+        }
+
+        function toggleCategoryBOther() {
+            const field = document.getElementById('catB_otherField');
+            const other = document.getElementById('catB_other').checked;
+            field.style.display = other ? 'block' : 'none';
+        }
+
+        function toggleCategoryCOther() {
+            const field = document.getElementById('catC_otherField');
+            const other = document.getElementById('catC_other').checked;
+            field.style.display = other ? 'block' : 'none';
+        }
+
+        function toggleCategoryDOther() {
+            const field = document.getElementById('catD_otherField');
+            const other = document.getElementById('catD_other').checked;
+            field.style.display = other ? 'block' : 'none';
+        }
+
+        function toggleCategoryEOther() {
+            const field = document.getElementById('catE_otherField');
+            const other = document.getElementById('catE_other').checked;
+            field.style.display = other ? 'block' : 'none';
+        }
+
+        function loadData(){
+            const data = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            Object.keys(data).forEach(function(key){ 
+                const el = document.getElementById(key);
+                if (el) {
+                    if (el.type === 'radio') {
+                        const r = document.querySelector('input[name="' + el.name + '"][value="' + data[key] + '"]');
+                        if (r) r.checked = true;
+                    } else {
+                        el.value = data[key];
+                    }
+                }
+            });
+            // Trigger toggles based on saved data
+            toggleCategoryAOther();
+            toggleCategoryBOther();
+            toggleCategoryCOther();
+            toggleCategoryDOther();
+            toggleCategoryEOther();
+        }
+
+        function saveAndNext(){
+            const fd = new FormData(document.getElementById('njStep5'));
+            const existing = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            fd.forEach((v,k)=> existing[k]=v);
+            sessionStorage.setItem('njApplicationData', JSON.stringify(existing));
+            window.location.href = 'NJ-app-step6.html';
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJ TDI – Step 3: Plan Coverage & Contributions</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../assets/images/ShelterPoint.jpg" alt="ShelterPoint Life Insurance Company" style="height: 50px;">
+                <p class="tagline">Application – Step 3 of 6</p>
+            </div>
+        </header>
+        <main>
+            <div class="form-section">
+                <h2 class="section-title">Plan Coverage & Employee Contributions</h2>
+
+                <form id="njStep3">
+                    <!-- Item 4: Plan Coverage -->
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">The Plan Will Cover: <span class="required">*</span></h3>
+                        
+                        <div class="form-group">
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="allEmployees" name="planCoverage" value="all" onchange="toggleExcludedClasses()" required>
+                                    <label for="allEmployees">All covered employees of the employer</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="otherClasses" name="planCoverage" value="other" onchange="toggleExcludedClasses()">
+                                    <label for="otherClasses">Other (describe classes covered)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="njEmployeeCount">Number of New Jersey Employees <span class="required">*</span></label>
+                            <input type="number" id="njEmployeeCount" name="njEmployeeCount" min="1" required>
+                        </div>
+
+                        <div id="excludedClassesField" style="display: none; margin-top: 1rem;">
+                            <div class="form-group">
+                                <label for="excludedClasses">Describe Classes Covered</label>
+                                <textarea id="excludedClasses" name="excludedClasses" rows="3" style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit;"></textarea>
+                                <span class="help-text">If more space is required, attach a separate sheet</span>
+                            </div>
+
+                            <div class="alert-box error" style="margin-top: 1rem;">
+                                <strong>⚠️ Required:</strong> If option (b) is selected above, Form DP-1A must be attached to show excluded classes of employees.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 5: Employee Contributions -->
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Employee Contributions <span class="required">*</span></h3>
+                        <p style="color: var(--text-dark); margin-bottom: 1rem;">The contributions required of employees covered by the Private Plan will be:</p>
+                        
+                        <div class="form-group">
+                            <label style="font-weight: 600;">Check One:</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="statutory" name="contributionType" value="statutory" onchange="toggleContributionFields()" required>
+                                    <label for="statutory">Statutory percentage of taxable wages (amount set annually by Law)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="otherPercent" name="contributionType" value="other" onchange="toggleContributionFields()">
+                                    <label for="otherPercent">Other ___% of statutory taxable wage base (must be less than statutory)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="noneContrib" name="contributionType" value="none" onchange="toggleContributionFields()">
+                                    <label for="noneContrib">None. Employees were informed on _____ that no deductions would be taken for New Jersey Temporary Disability Benefits</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="otherPercentField" style="display: none; margin-top: 1rem;">
+                            <div class="form-group">
+                                <label for="otherPercentValue">Percentage of Statutory Taxable Wage Base</label>
+                                <input type="number" id="otherPercentValue" name="otherPercentValue" min="1" max="99" step="0.01">
+                                <span class="help-text">Must be less than statutory percentage</span>
+                            </div>
+                        </div>
+
+                        <div id="noneInformedField" style="display: none; margin-top: 1rem;">
+                            <div class="form-group">
+                                <label for="informedDate">Date Employees Were Informed</label>
+                                <input type="date" id="informedDate" name="informedDate">
+                            </div>
+                        </div>
+
+                        <div id="notificationMethodField" style="margin-top: 1.5rem;">
+                            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Method Used for Notification:</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="writtenNotice" name="writtenNotice">
+                                    <label for="writtenNotice">Written Notice</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="verbalNotice" name="verbalNotice">
+                                    <label for="verbalNotice">Verbal Notice</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="bulletinBoard" name="bulletinBoard">
+                                    <label for="bulletinBoard">Bulletin Board Notice</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="otherMethod" name="otherMethod" onchange="toggleOtherMethod()">
+                                    <label for="otherMethod">Other</label>
+                                </div>
+                            </div>
+                            <div id="otherMethodField" style="display: none; margin-top: 0.5rem;">
+                                <input type="text" id="otherMethodDesc" name="otherMethodDesc" placeholder="Describe other method">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-secondary" onclick="window.location.href='NJ-app-step2.html'">← Back</button>
+                        <button type="button" class="btn-primary" onclick="saveAndNext()">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <p>© 2025 ShelterPoint Life Insurance Company</p>
+        </footer>
+    </div>
+    <script>
+        function toggleExcludedClasses() {
+            const excludedField = document.getElementById('excludedClassesField');
+            const otherClasses = document.getElementById('otherClasses').checked;
+            excludedField.style.display = otherClasses ? 'block' : 'none';
+        }
+
+        function toggleContributionFields() {
+            const otherPercentField = document.getElementById('otherPercentField');
+            const noneInformedField = document.getElementById('noneInformedField');
+            
+            const otherPercent = document.getElementById('otherPercent').checked;
+            const noneContrib = document.getElementById('noneContrib').checked;
+            
+            otherPercentField.style.display = otherPercent ? 'block' : 'none';
+            noneInformedField.style.display = noneContrib ? 'block' : 'none';
+        }
+
+        function toggleOtherMethod() {
+            const otherMethodField = document.getElementById('otherMethodField');
+            const otherMethod = document.getElementById('otherMethod').checked;
+            otherMethodField.style.display = otherMethod ? 'block' : 'none';
+        }
+
+        function loadData(){
+            const data = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            Object.keys(data).forEach(function(key){ 
+                const el = document.getElementById(key);
+                if (el) {
+                    if (el.type === 'radio') {
+                        const r = document.querySelector('input[name="' + el.name + '"][value="' + data[key] + '"]');
+                        if (r) r.checked = true;
+                    } else if (el.type === 'checkbox') {
+                        el.checked = data[key] === 'on' || data[key] === true;
+                    } else {
+                        el.value = data[key];
+                    }
+                }
+            });
+            // Trigger toggles based on saved data
+            toggleExcludedClasses();
+            toggleContributionFields();
+            toggleOtherMethod();
+        }
+
+        function saveAndNext(){
+            const fd = new FormData(document.getElementById('njStep3'));
+            const existing = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            fd.forEach((v,k)=> existing[k]=v);
+            sessionStorage.setItem('njApplicationData', JSON.stringify(existing));
+            window.location.href = 'NJ-app-step4.html';
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
+

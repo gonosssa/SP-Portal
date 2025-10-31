@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJ TDI – Step 4: Employee Election & Benefits</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../assets/images/ShelterPoint.jpg" alt="ShelterPoint Life Insurance Company" style="height: 50px;">
+                <p class="tagline">Application – Step 4 of 6</p>
+            </div>
+        </header>
+        <main>
+            <div class="form-section">
+                <h2 class="section-title">Employees' Election</h2>
+
+                <form id="njStep4">
+                    <!-- Item 6: Employee Election (Collective Bargaining) -->
+                    <div style="background: #FFF3CD; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--warning-color);">
+                        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Employees' Election (Collective Bargaining)</h3>
+                        <p style="color: var(--text-dark); margin-bottom: 1rem;"><strong>Complete this section ONLY if the plan is contributory and covers members of a Collective Bargaining Agreement.</strong></p>
+                        
+                        <div class="alert-box" style="background: white;">
+                            <p><strong>Employee Agreement:</strong> Employees' agreement to establishment or modification of the Plan (<strong>Required</strong> if employees contribute to the cost of the Plan, unless, in the case of a modification, such modification does not include either a reduction in the amount or duration of benefits or an increase in the rate of employee contributions.)</p>
+                        </div>
+
+                        <div class="form-row" style="margin-top: 1rem;">
+                            <div class="form-group">
+                                <label for="electionDate">Date Election Was Held</label>
+                                <input type="date" id="electionDate" name="electionDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalRequired">Total Number Required to Contribute</label>
+                                <input type="number" id="totalRequired" name="totalRequired" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="numberAgreeing">Number Agreeing to the Private Plan</label>
+                            <input type="number" id="numberAgreeing" name="numberAgreeing" min="0">
+                        </div>
+
+                        <div class="info-box" style="margin-top: 1rem; background: white;">
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">📄 The original records of the election are submitted with this application.</p>
+                            <p style="font-size: 0.9rem;">After being recorded by the Division of Temporary Disability Insurance, they will be returned to the employer, who shall retain them during the existence of the Plan and make them available for inspection by any authorized representative of the Division.</p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-secondary" onclick="window.location.href='NJ-app-step3.html'">← Back</button>
+                        <button type="button" class="btn-primary" onclick="saveAndNext()">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <p>© 2025 ShelterPoint Life Insurance Company</p>
+        </footer>
+    </div>
+    <script>
+        function loadData(){
+            const data = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            Object.keys(data).forEach(function(key){ 
+                const el = document.getElementById(key);
+                if (el) {
+                    if (el.type === 'radio') {
+                        const r = document.querySelector('input[name="' + el.name + '"][value="' + data[key] + '"]');
+                        if (r) r.checked = true;
+                    } else {
+                        el.value = data[key];
+                    }
+                }
+            });
+        }
+
+        function saveAndNext(){
+            const fd = new FormData(document.getElementById('njStep4'));
+            const existing = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            fd.forEach((v,k)=> existing[k]=v);
+            sessionStorage.setItem('njApplicationData', JSON.stringify(existing));
+            window.location.href = 'NJ-app-step5.html';
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
+

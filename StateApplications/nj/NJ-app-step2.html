@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJ TDI – Step 2: Representative Information</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../assets/images/ShelterPoint.jpg" alt="ShelterPoint Life Insurance Company" style="height: 50px;">
+                <p class="tagline">Application – Step 2 of 6</p>
+            </div>
+        </header>
+        <main>
+            <div class="form-section">
+                <h2 class="section-title">Authorized Representative</h2>
+
+                <form id="njStep2">
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <p style="color: var(--text-dark); margin-bottom: 1rem;">Any and all notices or communications <strong>to the employer</strong> may be served by mail, addressed to the following designated person as the duly authorized representative:</p>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="repName">Representative's Name <span class="required">*</span></label>
+                                <input type="text" id="repName" name="repName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="repEmail">Representative's Email</label>
+                                <input type="email" id="repEmail" name="repEmail">
+                                <span class="help-text">Optional</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="repTitle">Representative's Title <span class="required">*</span></label>
+                                <input type="text" id="repTitle" name="repTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deptEmail">Department Email</label>
+                                <input type="email" id="deptEmail" name="deptEmail">
+                                <span class="help-text">Optional</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="repAddress">Authorized Mailing Address <span class="required">*</span></label>
+                                <input type="text" id="repAddress" name="repAddress" placeholder="Street, City, State, ZIP Code" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="repPhone">Representative's Phone Number <span class="required">*</span></label>
+                                <input type="tel" id="repPhone" name="repPhone" placeholder="(555) 123-4567" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-secondary" onclick="window.location.href='NJ-app-step1.html'">← Back</button>
+                        <button type="button" class="btn-primary" onclick="saveAndNext()">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <p>© 2025 ShelterPoint Life Insurance Company</p>
+        </footer>
+    </div>
+    <script>
+        function loadData(){
+            const data = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            Object.keys(data).forEach(function(key){ 
+                const el = document.getElementById(key);
+                if (el) el.value = data[key];
+            });
+        }
+
+        function saveAndNext(){
+            const fd = new FormData(document.getElementById('njStep2'));
+            const existing = JSON.parse(sessionStorage.getItem('njApplicationData') || '{}');
+            fd.forEach((v,k)=> existing[k]=v);
+            sessionStorage.setItem('njApplicationData', JSON.stringify(existing));
+            window.location.href = 'NJ-app-step3.html';
+        }
+
+        // Auto-format phone numbers
+        document.getElementById('repPhone').addEventListener('input', formatPhone);
+
+        function formatPhone(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    value = '(' + value;
+                } else if (value.length <= 6) {
+                    value = '(' + value.slice(0, 3) + ') ' + value.slice(3);
+                } else {
+                    value = '(' + value.slice(0, 3) + ') ' + value.slice(3, 6) + '-' + value.slice(6, 10);
+                }
+                e.target.value = value;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
+
