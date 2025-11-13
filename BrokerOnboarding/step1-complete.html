@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Access - ShelterPoint Onboarding</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="ShelterPoint.jpg" alt="ShelterPoint Life Insurance Company" style="height: 50px;">
+                <p class="tagline">Producer Onboarding</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="form-section">
+                <h2 class="section-title">Welcome to ShelterPoint!</h2>
+                <p class="section-description">Your broker account has been created successfully.</p>
+
+                <div style="background: var(--bg-light); padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 600px; text-align: center;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-color);">Your Broker ID</h3>
+                    <div style="background: #fff; padding: 1.5rem; border-radius: 8px; border: 2px solid var(--primary-color); margin: 1rem 0;">
+                        <p style="font-size: 2rem; font-weight: bold; color: var(--primary-color); margin: 0; letter-spacing: 2px;">123456789</p>
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-color); font-size: 0.9rem;">Save this ID for your records</p>
+                </div>
+
+                <div style="background: var(--bg-light); padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 600px;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-color);">Begin Quoting</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-color);">You now have access to the ShelterPoint portal. Visit our quoting page to explore our products and start creating quotes for your clients.</p>
+                    <div style="text-align: center;">
+                        <button class="btn-primary" onclick="goToQuoting()">Visit Quoting Page</button>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-light); padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 600px; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-color);">Complete Your Onboarding</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-color);">When you're ready to complete your onboarding and submit applications for clients, continue with the remaining steps.</p>
+                    <div style="text-align: center;">
+                        <button class="btn-primary" onclick="continueOnboarding()">Continue Onboarding</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 ShelterPoint Life Insurance Company | Need help? Call 800-365-4999</p>
+        </footer>
+    </div>
+
+    <script>
+        function goToQuoting() {
+            window.location.href = '../StateApplications/index.html';
+        }
+
+        function continueOnboarding() {
+            window.location.href = 'step2-business.html';
+        }
+    </script>
+</body>
+</html>
+

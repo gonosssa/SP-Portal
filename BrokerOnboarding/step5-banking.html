@@ -63,27 +63,23 @@
                         <div class="form-group">
                             <label for="bankName">Bank Name <span class="required">*</span></label>
                             <input type="text" id="bankName" name="bankName">
-                            <span class="error-message" id="bankNameError">Please enter your bank name</span>
                         </div>
 
                         <div class="form-group">
                             <label for="routingNumber">Routing Number (9 digits) <span class="required">*</span></label>
                             <input type="text" id="routingNumber" name="routingNumber" maxlength="9" placeholder="123456789">
-                            <span class="error-message" id="routingError">Please enter a valid 9-digit routing number</span>
                             <span class="help-text">Found on the bottom left of your check</span>
                         </div>
 
                         <div class="form-group">
                             <label for="accountNumber">Account Number <span class="required">*</span></label>
                             <input type="text" id="accountNumber" name="accountNumber" placeholder="1234567890">
-                            <span class="error-message" id="accountError">Please enter your account number</span>
                             <span class="help-text">Found on the bottom of your check, after the routing number</span>
                         </div>
 
                         <div class="form-group">
                             <label for="confirmAccount">Confirm Account Number <span class="required">*</span></label>
                             <input type="text" id="confirmAccount" name="confirmAccount" placeholder="1234567890">
-                            <span class="error-message" id="confirmError">Account numbers must match</span>
                         </div>
 
                         <div class="form-row-3">
@@ -160,30 +156,6 @@
     </div>
 
     <script>
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
-            if (savedData.banking) {
-                Object.keys(savedData.banking).forEach(key => {
-                    const element = document.getElementById(key);
-                    if (element) {
-                        if (element.type === 'radio') {
-                            if (element.value === savedData.banking[key]) {
-                                element.checked = true;
-                            }
-                        } else if (element.type === 'checkbox') {
-                            element.checked = savedData.banking[key];
-                        } else {
-                            element.value = savedData.banking[key];
-                        }
-                    }
-                });
-                
-                if (savedData.banking.directDeposit) {
-                    toggleBankingFields();
-                }
-            }
-        });
-
         function toggleBankingFields() {
             const bankingFields = document.getElementById('bankingFields');
             const paperCheckInfo = document.getElementById('paperCheckInfo');
@@ -200,96 +172,8 @@
 
         document.getElementById('bankingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const directDeposit = document.querySelector('input[name="directDeposit"]:checked');
-            if (!directDeposit) {
-                alert('Please select a payment method');
-                return;
-            }
-
-            let isValid = true;
-            const formData = {
-                directDeposit: directDeposit.value
-            };
-
-            if (directDeposit.value === 'yes') {
-                const bankName = document.getElementById('bankName').value.trim();
-                const routingNumber = document.getElementById('routingNumber').value.trim();
-                const accountNumber = document.getElementById('accountNumber').value.trim();
-                const confirmAccount = document.getElementById('confirmAccount').value.trim();
-                const authorizeACH = document.getElementById('authorizeACH').checked;
-
-                // Validate bank name
-                if (!bankName) {
-                    showError('bankName');
-                    isValid = false;
-                } else {
-                    hideError('bankName');
-                }
-
-                // Validate routing number
-                if (!routingNumber || routingNumber.length !== 9 || !/^\d+$/.test(routingNumber)) {
-                    showError('routingNumber');
-                    isValid = false;
-                } else {
-                    hideError('routingNumber');
-                }
-
-                // Validate account number
-                if (!accountNumber) {
-                    showError('accountNumber');
-                    isValid = false;
-                } else {
-                    hideError('accountNumber');
-                }
-
-                // Validate account confirmation
-                if (accountNumber !== confirmAccount) {
-                    showError('confirmAccount');
-                    isValid = false;
-                } else {
-                    hideError('confirmAccount');
-                }
-
-                // Validate authorization
-                if (!authorizeACH) {
-                    alert('You must authorize ACH deposits to use direct deposit');
-                    isValid = false;
-                }
-
-                if (isValid) {
-                    formData.bankName = bankName;
-                    formData.routingNumber = routingNumber;
-                    formData.accountNumber = accountNumber;
-                    formData.bankCity = document.getElementById('bankCity').value.trim();
-                    formData.bankState = document.getElementById('bankState').value;
-                    formData.bankZip = document.getElementById('bankZip').value.trim();
-                    formData.authorizeACH = authorizeACH;
-                }
-            }
-
-            if (isValid) {
-                const allData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
-                allData.banking = formData;
-                localStorage.setItem('onboardingData', JSON.stringify(allData));
-                
-                window.location.href = 'step6-review.html';
-            }
+            window.location.href = 'step6-review.html';
         });
-
-        function showError(fieldId) {
-            const input = document.getElementById(fieldId);
-            const error = document.getElementById(fieldId + 'Error');
-            input.classList.add('error');
-            if (error) error.style.display = 'block';
-        }
-
-        function hideError(fieldId) {
-            const input = document.getElementById(fieldId);
-            const error = document.getElementById(fieldId + 'Error');
-            input.classList.remove('error');
-            if (error) error.style.display = 'none';
-        }
 
         function goBack() {
             window.location.href = 'step4-agreements.html';

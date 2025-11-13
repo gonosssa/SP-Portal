@@ -5,6 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShelterPoint Producer Onboarding</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+        .modal-body label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .modal-body input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -19,10 +73,22 @@
                 <h2>Welcome to ShelterPoint!</h2>
                 <p class="subtitle">Let's get you set up as a Sales Partner</p>
                 
+                <p style="margin-bottom: 1rem;">To generate a Broker ID, access the portal, and begin quoting:</p>
                 <div class="info-box">
-                    <h3>What you'll need:</h3>
+                    <h3>🚀 To get started:</h3>
                     <ul class="checklist">
                         <li>✓ Your personal and business information</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin: 1.5rem 0;">
+                    <button class="btn-primary" onclick="startOnboarding()">Get Started</button>
+                </div>
+
+                <p style="margin-bottom: 1rem; margin-top: 2rem;">When you're ready to submit an application for a client:</p>
+                <div class="info-box">
+                    <h3>✅ To complete your onboarding:</h3>
+                    <ul class="checklist">
                         <li>✓ Insurance license (copy ready to upload)</li>
                         <li>✓ Tax ID or Social Security Number</li>
                         <li>✓ Proof of E&O coverage</li>
@@ -31,37 +97,9 @@
                     </ul>
                 </div>
 
-                <div class="progress-info">
-                    <h3>Your onboarding journey:</h3>
-                    <div class="steps-preview">
-                        <div class="step-preview">
-                            <div class="step-number">1</div>
-                            <p>Personal Info</p>
-                        </div>
-                        <div class="step-preview">
-                            <div class="step-number">2</div>
-                            <p>Business Info</p>
-                        </div>
-                        <div class="step-preview">
-                            <div class="step-number">3</div>
-                            <p>Documents</p>
-                        </div>
-                        <div class="step-preview">
-                            <div class="step-number">4</div>
-                            <p>Agreements</p>
-                        </div>
-                        <div class="step-preview">
-                            <div class="step-number">5</div>
-                            <p>Banking (Optional)</p>
-                        </div>
-                        <div class="step-preview">
-                            <div class="step-number">6</div>
-                            <p>Review & Submit</p>
-                        </div>
-                    </div>
+                <div style="text-align: center; margin: 1.5rem 0;">
+                    <button class="btn-primary" onclick="completeOnboarding()">Complete Onboarding</button>
                 </div>
-
-                <button class="btn-primary" onclick="startOnboarding()">Get Started</button>
 
                 <div class="help-section">
                     <p>Need help? Call our Sales Team at <strong>800-365-4999</strong></p>
@@ -75,12 +113,39 @@
         </footer>
     </div>
 
+    <!-- Broker ID Modal -->
+    <div id="brokerIdModal" class="modal-overlay" onclick="if(event.target === this) closeBrokerIdModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Enter Your Broker ID</h3>
+            </div>
+            <div class="modal-body">
+                <label for="brokerIdInput">Broker ID Number</label>
+                <input type="text" id="brokerIdInput" name="brokerId" placeholder="ex. 123456789">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeBrokerIdModal()">Cancel</button>
+                <button type="button" class="btn-primary" onclick="proceedToStep2()">Continue</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function startOnboarding() {
-            // Save start time
-            localStorage.setItem('onboardingStarted', new Date().toISOString());
-            // Navigate to first step
             window.location.href = 'step1-personal.html';
+        }
+
+        function completeOnboarding() {
+            document.getElementById('brokerIdModal').classList.add('active');
+        }
+
+        function closeBrokerIdModal() {
+            document.getElementById('brokerIdModal').classList.remove('active');
+            document.getElementById('brokerIdInput').value = '';
+        }
+
+        function proceedToStep2() {
+            window.location.href = 'step2-business.html';
         }
     </script>
 </body>

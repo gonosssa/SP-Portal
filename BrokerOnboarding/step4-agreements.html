@@ -72,7 +72,7 @@
                         </div>
 
                         <div class="checkbox-item" style="margin-top: 1rem;">
-                            <input type="checkbox" id="agreeProducer" name="agreeProducer" required>
+                            <input type="checkbox" id="agreeProducer" name="agreeProducer">
                             <label for="agreeProducer">I have read and agree to the Producer Agreement <span class="required">*</span></label>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
 
                         <div class="form-group">
                             <label for="w9Name">Name (as shown on income tax return) <span class="required">*</span></label>
-                            <input type="text" id="w9Name" name="w9Name" required>
+                            <input type="text" id="w9Name" name="w9Name">
                             <span class="help-text">This must match your legal name or business name</span>
                         </div>
 
@@ -100,7 +100,7 @@
                             <label>Federal tax classification <span class="required">*</span></label>
                             <div class="radio-group">
                                 <div class="radio-item">
-                                    <input type="radio" id="individual" name="taxClassification" value="individual" required>
+                                    <input type="radio" id="individual" name="taxClassification" value="individual">
                                     <label for="individual">Individual/sole proprietor or single-member LLC</label>
                                 </div>
                                 <div class="radio-item">
@@ -124,7 +124,7 @@
 
                         <div class="form-group">
                             <label for="w9TIN">Taxpayer Identification Number <span class="required">*</span></label>
-                            <input type="text" id="w9TIN" name="w9TIN" placeholder="XX-XXXXXXX" required>
+                            <input type="text" id="w9TIN" name="w9TIN" placeholder="XX-XXXXXXX">
                             <span class="help-text">Social Security Number or Employer Identification Number</span>
                         </div>
 
@@ -150,17 +150,17 @@
                         <div class="form-row" style="margin-top: 1rem;">
                             <div class="form-group">
                                 <label for="signatureName">Full Name (Signature) <span class="required">*</span></label>
-                                <input type="text" id="signatureName" name="signatureName" required>
+                                <input type="text" id="signatureName" name="signatureName">
                             </div>
 
                             <div class="form-group">
                                 <label for="signatureDate">Date <span class="required">*</span></label>
-                                <input type="date" id="signatureDate" name="signatureDate" required>
+                                <input type="date" id="signatureDate" name="signatureDate">
                             </div>
                         </div>
 
                         <div class="checkbox-item" style="margin-top: 1rem;">
-                            <input type="checkbox" id="certifyW9" name="certifyW9" required>
+                            <input type="checkbox" id="certifyW9" name="certifyW9">
                             <label for="certifyW9">I certify that all information provided is true and accurate <span class="required">*</span></label>
                         </div>
                     </div>
@@ -182,72 +182,10 @@
         window.addEventListener('DOMContentLoaded', function() {
             // Set today's date as default
             document.getElementById('signatureDate').valueAsDate = new Date();
-            
-            // Load saved data
-            const savedData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
-            if (savedData.agreements) {
-                Object.keys(savedData.agreements).forEach(key => {
-                    const element = document.getElementById(key);
-                    if (element) {
-                        if (element.type === 'radio') {
-                            if (element.value === savedData.agreements[key]) {
-                                element.checked = true;
-                            }
-                        } else if (element.type === 'checkbox') {
-                            element.checked = savedData.agreements[key];
-                        } else {
-                            element.value = savedData.agreements[key];
-                        }
-                    }
-                });
-            }
-            
-            // Pre-populate name from personal info
-            if (savedData.personal) {
-                const fullName = `${savedData.personal.firstName} ${savedData.personal.lastName}`;
-                if (!savedData.agreements?.w9Name) {
-                    document.getElementById('w9Name').value = fullName;
-                }
-                if (!savedData.agreements?.signatureName) {
-                    document.getElementById('signatureName').value = fullName;
-                }
-            }
-            
-            // Pre-populate TIN from business info
-            if (savedData.business && !savedData.agreements?.w9TIN) {
-                document.getElementById('w9TIN').value = savedData.business.taxId;
-            }
         });
 
         document.getElementById('agreementsForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            if (!document.getElementById('agreeProducer').checked || !document.getElementById('certifyW9').checked) {
-                alert('You must accept the agreements and certify the W-9 information to continue.');
-                return;
-            }
-
-            const taxClassification = document.querySelector('input[name="taxClassification"]:checked');
-            if (!taxClassification) {
-                alert('Please select your federal tax classification');
-                return;
-            }
-
-            const formData = {
-                agreeProducer: document.getElementById('agreeProducer').checked,
-                w9Name: document.getElementById('w9Name').value.trim(),
-                w9BusinessName: document.getElementById('w9BusinessName').value.trim(),
-                taxClassification: taxClassification.value,
-                w9TIN: document.getElementById('w9TIN').value.trim(),
-                signatureName: document.getElementById('signatureName').value.trim(),
-                signatureDate: document.getElementById('signatureDate').value,
-                certifyW9: document.getElementById('certifyW9').checked
-            };
-
-            const allData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
-            allData.agreements = formData;
-            localStorage.setItem('onboardingData', JSON.stringify(allData));
-            
             window.location.href = 'step5-banking.html';
         });
 

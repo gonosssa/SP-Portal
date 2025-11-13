@@ -30,8 +30,8 @@
                 <h2 class="section-title">Upload Required Documents</h2>
                 <p class="section-description">Please upload the following documents to complete your application.</p>
 
-                <div class="alert-box error">
-                    <strong>⚠️ Important:</strong> Incomplete submissions will not be processed. All documents below are required.
+                <div class="alert-box" style="background: #E3F2FD; border-left: 4px solid #2196F3;">
+                    <strong>Note:</strong> Producer Agreement and W-9 will be completed in the next steps. Banking information is optional but recommended for faster commission payments.
                 </div>
 
                 <form id="documentsForm">
@@ -74,20 +74,6 @@
                         <div id="fileList3" class="file-list"></div>
                     </div>
 
-                    <div class="info-box">
-                        <h3>💡 Document Requirements</h3>
-                        <ul>
-                            <li>All documents must be clear and legible</li>
-                            <li>Names on all documents must match your license</li>
-                            <li>E&O coverage must be active and current</li>
-                            <li>Digital signatures must comply with ESIGN Act and UETA</li>
-                        </ul>
-                    </div>
-
-                    <div class="alert-box">
-                        <strong>Note:</strong> Producer Agreement and W-9 will be completed in the next steps. Banking information is optional but recommended for faster commission payments.
-                    </div>
-
                     <div class="button-group">
                         <button type="button" class="btn-secondary" onclick="goBack()">← Back</button>
                         <button type="submit" class="btn-primary">Continue →</button>
@@ -108,31 +94,11 @@
             file3: null
         };
 
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
-            if (savedData.documents) {
-                uploadedFiles.file1 = savedData.documents.file1;
-                uploadedFiles.file2 = savedData.documents.file2;
-                uploadedFiles.file3 = savedData.documents.file3;
-                
-                [1, 2, 3].forEach(num => {
-                    if (uploadedFiles['file' + num]) {
-                        displayFile(num, uploadedFiles['file' + num]);
-                    }
-                });
-            }
-        });
-
         function handleFileSelect(fileNum) {
             const fileInput = document.getElementById('file' + fileNum);
             const file = fileInput.files[0];
             
             if (file) {
-                if (file.size > 10 * 1024 * 1024) {
-                    alert('File size must be less than 10MB');
-                    return;
-                }
-                
                 uploadedFiles['file' + fileNum] = {
                     name: file.name,
                     size: file.size,
@@ -170,16 +136,6 @@
 
         document.getElementById('documentsForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            if (!uploadedFiles.file1 || !uploadedFiles.file2 || !uploadedFiles.file3) {
-                alert('Please upload all required documents before continuing.');
-                return;
-            }
-
-            const allData = JSON.parse(localStorage.getItem('onboardingData') || '{}');
-            allData.documents = uploadedFiles;
-            localStorage.setItem('onboardingData', JSON.stringify(allData));
-            
             window.location.href = 'step4-agreements.html';
         });
 
